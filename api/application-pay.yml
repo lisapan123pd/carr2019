@@ -1,0 +1,23 @@
+pay: 
+  #钱隆支付
+  merchantId: 10289
+  appkey: fvsae982zx769ybqrg72sle4lex3a1ge
+  payUrl: http://jh.y8762.cn/Pay_Index.html
+  notifyurl: http://127.0.0.1:8077/pay/wy/wxnotify
+  callbackurl: http://127.0.0.1:8077/pay/wy/wxcallback
+  wxpay: 
+    name: webchat
+    code: 930
+    
+face4pay: 
+  merchantId: 1000000985
+  appkey: EE1266B4B8EE470DB4211E3EB6C886CB
+  payUrl: http://pay.face4pay.com/xpay/api/create
+  notifyurl: http://127.0.0.1:8077/pay/wy/notify
+  callbackurl: http://127.0.0.1:8077/pay/wy/callback
+  wxpay: 
+    name: webchat
+    code: wxpay
+  alipay: 
+    name: alipay
+    code: alipay
