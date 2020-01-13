@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <title>支付</title>
+    </head>
+    <body onLoad="document.uncome.submit()">
+       <div id="Content">
+		  <div class="tabPages">我们正在为您连接，请稍等......</div>
+		</div>
+		<form name="uncome" th:action="${payUrl}" method="post">
+			<input type="hidden" name="version" th:value="1.0" />
+	        <input type="hidden" name="customerid" th:value="${customerid}" />
+	        <input type="hidden" name="sdorderno" th:value="${sdorderno}" />
+	        <input type="hidden" name="total_fee" th:value="${total_fee}" />
+	        <input type="hidden" name="paytype" th:value="${paytype}" />
+	        <input type="hidden" name="notifyurl" th:value="${notifyurl}" />
+	        <input type="hidden" name="returnurl" th:value="${returnurl}" />
+	        <input type="hidden" name="sign" th:value="${sign}" />
+		</form>
+    </body>
+</html>
