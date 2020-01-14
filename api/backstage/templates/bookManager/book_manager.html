@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <title>小说管理系统</title>
+		
+		<header th:replace="commonjs :: body"></header>
+    </head>
+
+    <body data-sa-theme="1" style="background-image:none;">
+        <main class="main">
+                <header class="content__title">
+                    <h1>小说管理>小说列表</h1>
+                </header>
+                <div class="card">
+                    <div class="card-body">
+						<form id="searchForm">
+		                     <div class="row">
+	                            <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="title" placeholder="小说名称"/>
+                                        <i class="form-group__bar"></i>
+                                    </div>
+	                             </div>
+	                             <div class="col-sm-3">
+	                                <div class="form-group">
+	                                    <select class="select2" id="sex" name="sex" >
+	                                    	<option selected="selected" value="">选择频段</option>
+	                                    	<option value="1">男频</option>
+	                                        <option value="2">女频</option>
+	                                     </select>
+	                                    <i class="form-group__bar"></i>
+	                                </div>
+	                             </div>
+	                             <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input id="btn-search" type="button" class="btn btn-secondary" value="查询"/>
+                                    </div>
+	                             </div>
+	                        </div>
+		                </form>
+		                <div id="option-btn-list">
+		                      <input class="btn btn-light" id="btn_add-book-modal" type="button" value="创建小说"/>
+		                </div>
+		                <div class="my-data-list">
+                        <table id="data-table-list" class="table table-bordered mb-0">
+                            <thead>
+                            <tr>
+                                <th>封面</th>
+                                <th>频段</th>
+                            	<th>ID</th>
+                                <th>小说名</th>
+                                <th>终章</th>
+                                <th>小说状态</th>
+                                <th>地区</th>
+                                <th>状态</th>
+                                <th>推荐</th>
+                                <th>作者</th>
+                                <th>阅读量</th>
+                                <th>创建时间</th>
+                                <th>修改时间</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                       </div>
+                    </div>
+                </div>
+        </main>
+        
+        <div class="modal fade" id="save-book-modal" data-backdrop="false"  style="display: none;    z-index: 90;" aria-hidden="true">
+             <div class="modal-dialog">
+                 <div class="modal-content" style="background-color: #772036;">
+                     <div class="modal-header">
+                         <h5 class="modal-title pull-left">创建小说</h5>
+                     </div>
+                     <div class="modal-body">
+                         <form id="save_form">
+                             <input type="hidden" id="id" name="id"/>
+                             <div class="input-group">
+                                <span class="input-group-addon">Banner</span>
+                                <div class="form-group">
+                                    <img  id="banner_view" alt="banner" onclick="chooeseImg('#save-book-modal #bannerImg')" src="http://pic13.nipic.com/20110409/7119492_114440620000_2.jpg" style="width: 130px;height: 100px;"/>
+                                    <input type="file" id="bannerImg" name="bannerImg" onchange="viewImg(this,'#save-book-modal #banner_view')" style="display: none;"/>
+                                    <i class="form-group__bar"></i>
+                                </div>
+                                <span class="input-group-addon">封面图片</span>
+                                <div class="form-group">
+                                    <img  id="title_view" alt="titleImg" onclick="chooeseImg('#save-book-modal #titleImg')" src="http://pic13.nipic.com/20110409/7119492_114440620000_2.jpg" style="width: 130px;height: 100px;"/>
+                                    <input type="file" id="titleImg" name="titleImg" onchange="viewImg(this,'#save-book-modal #title_view')" style="display: none;"/>
+                                    <i class="form-group__bar"></i>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">小说标题</span>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="标题"/>
+                                    <i class="form-group__bar"></i>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon" style="border-right: 1px solid rgba(255,255,255,.2);">小说状态</span>
+                                <div class="form-group">
+                                     <select class="select2" id="status" name="status" >
+                                         <option selected="selected"  value="1">启用/正常</option>
+                                         <option value="0">删除</option>
+                                     </select>
+                                    <i class="form-group__bar"></i>
+                                </div>
+                                <span class="input-group-addon" style="border-right: 1px solid rgba(255,255,255,.2);">更新状态</span>
+                                <div class="form-group">
+                                     <select class="select2" id="bookStatus" name="bookStatus" >
+                                         <option selected="selected" value="0">连载中</option>
+                                         <option value="1">已完结</option>
+                                     </select>
+                                    <i class="form-group__bar"></i>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">小说作者</span>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="author" name="author" placeholder="小说作者"/>
+                                    <i class="form-group__bar"></i>
+                                </div>
+                                <span class="input-group-addon" style="border-right:1px solid rgba(255,255,255,.2);">小说频段</span>
+                                <div class="form-group">
+                                    <select class="select2" id="sex" name="sex" >
+                                    	<option selected="selected" value="1">男频</option>
+                                        <option value="2">女频</option>
+                                     </select>
+                                    <i class="form-group__bar"></i>
+                                </div>
+                               <!--  <span class="input-group-addon" style="border-right:1px solid rgba(255,255,255,.2);">小说地区</span>
+                                <div class="form-group">
+                                    <select class="select2" id="area_id" name="areaId" >
+                                     </select>
+                                    <i class="form-group__bar"></i>
+                                </div> -->
+                            </div>
+                            <div class="input-group" >
+                                <span class="input-group-addon" style="border-right: 1px solid rgba(255,255,255,.2);">小说类型</span>
+                                <div class="form-group">
+                                     <select class="select2" id="bookType" name="bookType" >
+                                     </select>
+                                    <i class="form-group__bar"></i>
+                                </div>
+                                <span class="input-group-addon">阅读数量</span>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="readNum" name="readNum" placeholder="阅读数量"/>
+                                    <i class="form-group__bar"></i>
+                                </div>
+                            </div>
+                            <div class="input-group" style="border-bottom: 1px solid rgba(255,255,255,.2);">
+                                <span class="input-group-addon" style="border-right: 1px solid rgba(255,255,255,.2);">设置标签</span>
+                                <div class="form-group">
+                                     <div id="label_panel">
+	                                     
+                                     </div>
+                                    <i class="form-group__bar"></i>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">小说描述</span>
+                                <div class="form-group">
+                                     <textarea class="form-control" id="comment" name="comment" rows="10" ></textarea>
+                                    <i class="form-group__bar"></i>
+                                </div>
+                            </div>
+                         </form>
+                     </div>
+                     <div class="modal-footer">
+                         <button type="button" class="btn btn-link" id="btn_submit">确定</button>
+                         <button type="button" class="btn btn-link" id="btn_close" data-dismiss="modal">关闭</button>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         
+
+        <!-- Older IE warning message -->
+            <!--[if IE]>
+                <div class="ie-warning">
+                    <h1>Warning!!</h1>
+                    <p>You are using an outdated version of Internet Explorer, please upgrade to any of the following web browsers to access this website.</p>
+
+                    <div class="ie-warning__downloads">
+                        <a href="/www.google.com/chrome">
+                            <img th:src="@{/superadminUIimg/browsers/chrome.png}" alt="">
+                        </a>
+
+                        <a href="https://www.mozilla.org/en-US/firefox/new">
+                            <img th:src="@{/superadminUIimg/browsers/firefox.png}" alt="">
+                        </a>
+
+                        <a href="/www.opera.com">
+                            <img th:src="@{/superadminUIimg/browsers/opera.png}" alt="">
+                        </a>
+
+                        <a href="https://support.apple.com/downloads/safari">
+                            <img th:src="@{/superadminUIimg/browsers/safari.png}" alt="">
+                        </a>
+
+                        <a href="https://www.microsoft.com/en-us/windows/microsoft-edge">
+                            <img th:src="@{/superadminUIimg/browsers/edge.png}" alt="">
+                        </a>
+
+                        <a href="/windows.microsoft.com/en-us/internet-explorer/download-ie">
+                            <img th:src="@{/superadminUIimg/browsers/ie.png}" alt="">
+                        </a>
+                    </div>
+                    <p>Sorry for the inconvenience!</p>
+                </div>
+            <![endif]-->
+
+        <!-- Javascript -->
+        <!-- Vendors -->
+        <script th:src="@{/js/jquery.js}"></script>
+        <script th:src="@{/superadminUI/vendors/bower_components/popper.js/dist/umd/popper.min.js}"></script>
+        <script th:src="@{/superadminUI/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+
+        <!-- Vendors: Data tables -->
+        <script th:src="@{/superadminUI/vendors/bower_components/datatables.net/js/jquery.dataTables.min.js}"></script>
+        <script th:src="@{/superadminUI/vendors/bower_components/select2/dist/js/select2.full.min.js}"></script>
+         <script th:src="@{/superadminUI/vendors/bower_components/sweetalert2/dist/sweetalert2.min.js}"></script>
+        
+        <!-- App functions and actions -->
+        <script th:src="@{/js/common.js}"></script>
+        <script th:src="@{/superadminUI/js/app.min.js}"></script>
+        <script th:src="@{/js/bookManager/book_manager.js}"></script>
+    </body>
+</html>

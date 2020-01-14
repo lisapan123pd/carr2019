@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <title>小说管理系统</title>
+
+        <header th:replace="commonjs :: body"></header>
+    </head>
+
+    <body data-sa-theme="1" style="background-image:none;">
+        <main class="main">
+                <header class="content__title">
+                    <h1>小说管理>小说列表>章节管理</h1>
+                    <button class="btn btn-theme-dark btn--icon-text"><i class="zwicon-arrow-left"></i> <a href="/mh/books/listpage">返回</a></button>
+                </header>
+                <div class="card">
+                    <div class="card-body">
+						<form id="searchForm">
+						<input type="hidden" id="bookId" name="bookId" th:value="${bookId}" />
+		                     <div class="row">
+	                            <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="title" placeholder="章节名称"/>
+                                        <i class="form-group__bar"></i>
+                                    </div>
+	                             </div>
+	                             <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <input id="btn-search" type="button" class="btn btn-secondary" value="查询"/>
+                                    </div>
+	                             </div>
+	                        </div>
+		                </form>
+		                <div id="option-btn-list">
+		                      <input class="btn btn-light" id="btn_add-save-modal" type="button" value="新建章节"/>
+		                </div>
+		                <div class="my-data-list">
+                        <table id="data-table-list" class="table table-bordered mb-0">
+                            <thead>
+                            <tr>
+                                <th>章节编号</th>
+                                <th>章节名称</th>
+                                <th>是否免费</th>
+                                <th>付费金额</th>
+                                <th>状态</th>
+                                <th>创建时间</th>
+                                <th>修改时间</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                       </div>
+                    </div>
+                </div>
+        </main>
+        
+        <div class="modal fade" id="save-section-modal" data-backdrop="false"  style="display: none;  z-index: 90;" aria-hidden="true">
+             <div class="modal-dialog" >
+                 <div class="modal-content" style="background-color: #772036; width: 500px">
+                     <div class="modal-header">
+                         <h5 class="modal-title pull-left">新增/修改章节</h5>
+                     </div>
+                     <div class="modal-body">
+                         <form id="save_form">
+                             <input type="hidden" id="id" name="id"/>
+                             <input type="hidden" id="bookId" name="bookId" th:value="${bookId}" />
+                             <div class="input-group">
+                                <span class="input-group-addon">章节编号</span>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="section" name="section" placeholder="章节编号"/>
+                                    <i class="form-group__bar"></i>
+                                </div>
+                                <span class="input-group-addon">章节名称</span>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="章节名称"/>
+                                    <i class="form-group__bar"></i>
+                                </div>
+                            </div>
+                             <div class="input-group">
+                                <span class="input-group-addon" style="border-right:1px solid rgba(255,255,255,.2);">是否免费</span>
+                                <div class="form-group" >
+                                     <select class="select2" id="isFree" name="isFree" >
+                                         <option selected="selected" value="1">是</option>
+                                         <option value="0">否</option>
+                                     </select>
+                                </div>
+                                 <span class="input-group-addon">付费金额</span>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="needToPay" name="needToPay" placeholder="付费金额"/>
+                                    <i class="form-group__bar"></i>
+                                </div>
+                                <span class="input-group-addon" style="border-right:1px solid rgba(255,255,255,.2);">章节状态</span>
+                                <div class="form-group" >
+                                     <select class="select2" id="status" name="status" >
+                                         <option selected="selected" value="1">正常</option>
+                                         <option value="0">删除</option>
+                                     </select>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                            	<span class="input-group-addon" style="height: 100%; border: 0" >文本内容</span>
+                                <div class="wysiwye-editor" style="height: 100px; width: 100%"></div>
+                            </div>
+                         </form>
+                     </div>
+                     <div class="modal-footer">
+                         <button type="button" class="btn btn-link" id="btn_submit">确定</button>
+                         <button type="button" class="btn btn-link" id="btn_close" data-dismiss="modal">关闭</button>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         
+         <div class="modal fade" id="setSectionPayInfo-modal" data-backdrop="false"  style="display: none;    z-index: 90;" aria-hidden="true">
+             <div class="modal-dialog">
+                 <div class="modal-content" style="background-color: #772036;">
+                     <div class="modal-header">
+                         <h5 class="modal-title pull-left">设置收费</h5>
+                     </div>
+                     <div class="modal-body">
+                         <form id="form">
+                             <input type="hidden" id="id" name="id"/>
+                             <div class="input-group">
+                                <span class="input-group-addon" style="border-right:1px solid rgba(255,255,255,.2);">是否免费</span>
+                                <div class="form-group" >
+                                     <select class="select2" id="isFree" name="isFree" >
+                                         <option selected="selected" value="1">是</option>
+                                         <option value="0">否</option>
+                                     </select>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">收费金额</span>
+                                <div class="form-group">
+                                     <input type="text" class="form-control" id="money" name="money"  placeholder="收费金额"/>
+                                    <i class="form-group__bar"></i>
+                                </div>
+                            </div>
+                         </form>
+                     </div>
+                     <div class="modal-footer">
+                         <button type="button" class="btn btn-link" id="btn_submit" onclick="setSectionPayInfo()">确定</button>
+                         <button type="button" class="btn btn-link" id="btn_close" data-dismiss="modal">关闭</button>
+                     </div>
+                 </div>
+             </div>
+         </div>
+        <!-- Older IE warning message -->
+            <!--[if IE]>
+                <div class="ie-warning">
+                    <h1>Warning!!</h1>
+                    <p>You are using an outdated version of Internet Explorer, please upgrade to any of the following web browsers to access this website.</p>
+
+                    <div class="ie-warning__downloads">
+                        <a href="/www.google.com/chrome">
+                            <img th:src="@{/superadminUIimg/browsers/chrome.png}" alt="">
+                        </a>
+
+                        <a href="https://www.mozilla.org/en-US/firefox/new">
+                            <img th:src="@{/superadminUIimg/browsers/firefox.png}" alt="">
+                        </a>
+
+                        <a href="/www.opera.com">
+                            <img th:src="@{/superadminUIimg/browsers/opera.png}" alt="">
+                        </a>
+
+                        <a href="https://support.apple.com/downloads/safari">
+                            <img th:src="@{/superadminUIimg/browsers/safari.png}" alt="">
+                        </a>
+
+                        <a href="https://www.microsoft.com/en-us/windows/microsoft-edge">
+                            <img th:src="@{/superadminUIimg/browsers/edge.png}" alt="">
+                        </a>
+
+                        <a href="/windows.microsoft.com/en-us/internet-explorer/download-ie">
+                            <img th:src="@{/superadminUIimg/browsers/ie.png}" alt="">
+                        </a>
+                    </div>
+                    <p>Sorry for the inconvenience!</p>
+                </div>
+            <![endif]-->
+
+        <!-- Javascript -->
+        <!-- Vendors -->
+        <script th:src="@{/js/jquery.js}"></script>
+        <script th:src="@{/superadminUI/vendors/bower_components/popper.js/dist/umd/popper.min.js}"></script>
+        <script th:src="@{/superadminUI/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+
+        <!-- Vendors: Data tables -->
+        <script th:src="@{/superadminUI/vendors/bower_components/datatables.net/js/jquery.dataTables.min.js}"></script>
+        <script th:src="@{/superadminUI/vendors/bower_components/select2/dist/js/select2.full.min.js}"></script>
+         <script th:src="@{/superadminUI/vendors/bower_components/sweetalert2/dist/sweetalert2.min.js}"></script>
+        
+        <!-- App functions and actions -->
+        <script th:src="@{/js/common.js}"></script>
+        <script th:src="@{/superadminUI/js/app.min.js}"></script>
+        <script th:src="@{/superadminUI/js/editor.min.js}"></script> <!-- WYSIWYG Editor -->
+        <script th:src="@{/superadminUI/js/functions.js}"></script>
+        <script th:src="@{/js/bookManager/section_manager.js}"></script>
+    </body>
+</html>
