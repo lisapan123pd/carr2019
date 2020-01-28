@@ -1,0 +1,12 @@
+pay: 
+  merchantId: 191245964
+  appkey: 6gna0qe1bl74ckw8uexwkbpuhm57i8fi
+  payUrl: http://154.204.42.54:8001/Pay_Index.html
+  notifyurl: http://api.yebanme.com/pay/wy/notify
+  callbackurl: http://api.yebanme.com/pay/wy/callback
+  alipay: 
+    name: alipay
+    code: 932
+  wxpay: 
+    name: webchat
+    code: 933 
